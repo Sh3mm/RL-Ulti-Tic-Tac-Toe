@@ -113,6 +113,8 @@ venv.bak/
 # Spyder project settings
 .spyderproject
 .spyproject
+**/.idea/
+**/bots/
 
 # Rope project settings
 .ropeproject
