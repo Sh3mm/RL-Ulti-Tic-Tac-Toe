@@ -46,7 +46,7 @@ class HiddenNN(BasicNN):
     def init_model():
         model = Sequential()
         model.add(Dense(81, input_dim=81, activation="relu"))
-        model.add(Dense(18, activation="relu"))
+        model.add(Dense(81, activation="relu"))
         model.add(Dense(1, activation="linear", kernel_initializer="glorot_uniform"))
         model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
         return model
