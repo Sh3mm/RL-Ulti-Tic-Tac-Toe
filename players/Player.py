@@ -18,5 +18,8 @@ class Player:
     def save(self, path: str):
         ...
 
+    def load(self, path: str):
+        ...
+
     def get_name(self):
         return str(type(self).__name__)

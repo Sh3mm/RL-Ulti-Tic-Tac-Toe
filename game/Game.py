@@ -10,6 +10,7 @@ class Game:
     def __init__(self, player1=None, player2=None, learn=True):
         self.board = Board()
         self.history: List[Move] = []
+        self.victor = 0
         self.players: Tuple[Player, Player] = (player1, player2)
         self.learn = learn
         self.overall = {"tie": 0, "p_1": 0, "p_2": 0}
@@ -20,14 +21,15 @@ class Game:
         while win_state == 0:
             player = self.players[turn % 2]
             moves = self.get_next_moves()
-            output = player.play(self.board, moves, (turn % 2) + 1)
-            self.board.set(*output, (turn % 2) + 1)
-            self.history.append(output)
+            game, tile = player.play(self.board, moves, (turn % 2) + 1)
+            self.board.set(game, tile, (turn % 2) + 1)
+            self.history.append(Move((int(game), int(tile))))
 
             win_state = self.board.check_win()
             turn += 1
 
         self.overall[self.__conv_dict[win_state]] += 1
+        self.victor = win_state
         self.player_learn(win_state)
 
     def reset(self):

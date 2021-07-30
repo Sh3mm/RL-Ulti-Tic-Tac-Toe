@@ -34,5 +34,8 @@ class RLPlayer(Player):
     def save(self, path: str):
         self.network.save(path)
 
+    def load(self, path: str):
+        self.network.load(path)
+
     def get_name(self):
-        return str(type(self.network).__name__)
+        return f"{self.network.get_name()}_{self.reward_dist.__name__}_{self.r_rate}"

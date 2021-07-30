@@ -115,6 +115,7 @@ venv.bak/
 .spyproject
 **/.idea/
 **/bots/
+**/games/
 
 # Rope project settings
 .ropeproject
