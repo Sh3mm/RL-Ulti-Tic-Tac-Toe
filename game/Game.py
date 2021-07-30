@@ -42,6 +42,8 @@ class Game:
 
     def player_learn(self, win_state):
         if self.learn:
-            self.players[0].update(float(1 == win_state) if win_state != -1 else .5, self.history)
-            self.players[1].update(float(2 == win_state) if win_state != -1 else .5, self.history)
+            p_1_state = (float(1 == win_state) if win_state != -1 else .5) * 2 - 1
+            p_2_state = p_1_state * -1
+            self.players[0].update(p_1_state, self.history)
+            self.players[1].update(p_2_state, self.history)
 

@@ -44,6 +44,7 @@ class Arena:
         print(f"results {p_1.get_name()} - {p_2.get_name()}: {game.overall}")
         return game.overall["p_1" if self.pos == 1 else "p_2"]
 
+
     @staticmethod
     def get_challenger(contestants: List[Player], round_number: int):
         for i in range(round_number):
