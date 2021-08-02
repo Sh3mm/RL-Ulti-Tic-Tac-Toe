@@ -30,6 +30,7 @@ class BasicNN:
 
     def load(self, path: str):
         self.model = load_model(path)
+        return self
 
     def save(self, path: str):
         self.model.save(path)

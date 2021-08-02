@@ -1,12 +1,13 @@
 from typing import List
 import json
 
-from players import Player, Random
+from players import Player, RLPlayer, Random
 from game import Game
 
 
 class Arena:
-    def __init__(self, trainee: Player, pos: int, contestants: List[Player], error=.1):
+    verif = 500
+    def __init__(self, trainee: RLPlayer, pos: int, contestants: List[Player], error=.1):
         self.trainee = trainee
         self.pos = pos
         self.contestants = contestants
@@ -23,11 +24,11 @@ class Arena:
                 game_list.append((game.history, game.victor))
                 game.reset()
 
-            result = self.test_trainee()
-            if result + self.error * 200 < best:
+            result = self.test_trainee()["p_1" if self.pos == 1 else "p_2"]
+            if result + self.error * self.verif < best:
                 self.trainee.load(f"bots/{self.trainee.get_name()}_{self.pos}")
 
-            if (200 - best) * .1 < result - best:
+            if (self.verif - best) * .1 < result - best:
                 self.trainee.save(f"bots/{self.trainee.get_name()}_{self.pos}")
                 best = result
 
@@ -35,14 +36,17 @@ class Arena:
             json.dump(game_list, f)
 
     def test_trainee(self):
+        t = self.trainee.r_rate
+        self.trainee.r_rate = 0
         p_1, p_2 = (self.trainee, Random()) if self.pos == 1 else (Random(), self.trainee)
         game = Game(p_1, p_2, learn=False)
-        for _ in range(200):
+        for _ in range(self.verif):
             game.start()
             game.reset()
 
         print(f"results {p_1.get_name()} - {p_2.get_name()}: {game.overall}")
-        return game.overall["p_1" if self.pos == 1 else "p_2"]
+        self.trainee.r_rate = t
+        return game.overall
 
 
     @staticmethod

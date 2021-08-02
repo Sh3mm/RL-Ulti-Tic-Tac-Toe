@@ -1,14 +1,18 @@
 from multiprocessing import Pool
+import os
 
 from Arena import Arena
 from players import RLPlayer, Random
 from NN_learning import BasicNN, HiddenNN, linear, root, expo
 
 
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
+
 def main(elements):
     network, reward, r_rate, act_in, act_out = elements
     Arena(
-        RLPlayer(network(act_in, act_out), reward, r_rate), 2,
+        RLPlayer(network(act_in, act_out), reward, r_rate), 1,
         [Random()]
     ).train_for(80, 500)
 
